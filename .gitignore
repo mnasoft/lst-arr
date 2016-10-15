@@ -1,9 +1,6 @@
+.directory
+*~
 *.FASL
 *.fasl
 *.lisp-temp
-*~
-
-# =========================
-# Directory show style
-# =========================
-.directory
+\#*#
