@@ -76,9 +76,17 @@
 		 (setf col (cons (aref a i j) col)))
 	       lst))))
 
+
+
+
 (defun list-list-transponate(l)
   "Транспонирование списка-списков
 ;;(list-list-transponate '((1 2) (2 3) (3 4) (4 5) (5 6)))
 => ((1 2 3 4 5) (2 3 4 5 6))
 "
   (array2d->list-list-by-col (list-list->array l)))
+
+(export 'array2d->list-list-by-row)
+
+(defun array2d->list-list-by-row (a)
+  (list-list-transponate (array2d->list-list-by-col a)))
