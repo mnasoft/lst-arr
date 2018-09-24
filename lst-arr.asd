@@ -1,9 +1,9 @@
 ;;;; lst-arr.asd
 
-(asdf:defsystem #:lst-arr
+(defsystem #:lst-arr
   :description "Describe lst-arr here"
-  :author "Your Name <your.name@example.com>"
-  :license "Specify license here"
+  :author "Nick Matvyeyev <mnasoft@gmail.com>"
+  :license "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 or later"  
   :serial t
   :components ((:file "package")
                (:file "lst-arr")))
