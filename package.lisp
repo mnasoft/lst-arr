@@ -1,11 +1,19 @@
 ;;;; package.lisp
 
+(defpackage #:lst-arr)
+
 (defpackage #:lst-arr
   (:use #:cl)
-  (:export calc-max-list-list-size)
-  (:export calc-min-list-list-size)
-  (:export list-list->array)
-  (:export array2d->list-list-by-col)
-  (:export list-list-transponate))
+  (:export lst-arr::calc-max-list-list-size
+	   lst-arr::calc-min-list-list-size
+	   )
+  (:export lst-arr::array2d->list-list-by-col
+	   lst-arr::array2d->list-list-by-row
+	   )
+  (:export lst-arr::list-list->array
+	   lst-arr::list-list-transponate
+	   lst-arr::print-list-list
+	   lst-arr::print-array2d
+	   ))
 
 ;;;;(declaim (optimize (space 0) (compilation-speed 0)  (speed 0) (safety 3) (debug 3)))

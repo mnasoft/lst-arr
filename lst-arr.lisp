@@ -16,10 +16,8 @@
 (calc-max-list-list-size '((1)(1 2 3 4 5 6)))
 => (2 6)
 "
-  (let (
-	(i (length l))
-	(j (apply #'max (mapcar #'length l)))
-	)
+  (let ((i (length l))
+	(j (apply #'max (mapcar #'length l))))
     (list i j)))
 
 (defun calc-min-list-list-size(l)
@@ -63,21 +61,18 @@
     a))
 
 (defun array2d->list-list-by-col(a)
-  (do* ( (in (array-dimension a 0))
-	 (jn (array-dimension a 1))
-	 (j 0 (1+ j))
-	 (lst nil)
-	 )
-       ( (>= j jn) (reverse lst))
+  "Выполняет преобразования 2d массива в список списков заменяя строки столбцами."
+  (do* ((in (array-dimension a 0))
+	(jn (array-dimension a 1))
+	(j 0 (1+ j))
+	(lst nil))
+       ((>= j jn) (reverse lst))
     (setf lst (cons 
 	       (do ( (col nil)
 		     (i 0 (1+ i)))
 		   ( (>= i in) (reverse col))
 		 (setf col (cons (aref a i j) col)))
 	       lst))))
-
-
-
 
 (defun list-list-transponate(l)
   "Транспонирование списка-списков
@@ -86,7 +81,35 @@
 "
   (array2d->list-list-by-col (list-list->array l)))
 
-(export 'array2d->list-list-by-row)
-
 (defun array2d->list-list-by-row (a)
+  "Выполняет преобразования 2d массива в список списков."
   (list-list-transponate (array2d->list-list-by-col a)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun print-list-list (lst &key (format-string " (~{~6f~^ ~})~%") (stream t))
+  "Выполняет построчный вывод списка-списков.
+Пример использования:
+ (lst-arr:print-list-list '((1 2 3 4)(5 6 7 8)) :format-string \" (~{~1a~^ ~})~%\")
+=>
+ (
+  (1 2 3 4)
+  (5 6 7 8)
+ )
+ (lst-arr:print-list-list '((1 2 3 4)(5 6 7 8)))
+ (
+  (   1.0    2.0    3.0    4.0)
+  (   5.0    6.0    7.0    8.0)
+ )
+"
+  (format stream "(~%")
+  (mapc
+   #'(lambda (el) (format stream format-string el))
+   lst)
+  (format stream ")~%"))
+
+(defun print-array2d (arr &key (format-string "|~{~6f~^ ~}|~%") (stream t))
+  "Выполняет построчный вывод масива."
+  (mapc
+   #'(lambda (el) (format stream format-string el))
+   (array2d->list-list-by-row arr)))
