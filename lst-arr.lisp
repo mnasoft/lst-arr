@@ -113,3 +113,23 @@
   (mapc
    #'(lambda (el) (format stream format-string el))
    (array2d->list-list-by-row arr)))
+
+(defun make-array2d-from-list (dimensions lst &optional (initial-element 0.0))
+  "Создает двумерный массив, состоящий из элементов списка lst.
+В массив элементы попадают построчно.
+Пример использования:
+ (make-array2d-from-list '(2 4) '(1 2 3 4 5))
+ =>#2A((1 2 3 4) (5 0.0 0.0 0.0)) "
+  (let ((a2d (make-array dimensions :initial-element initial-element)))
+    (loop :for i :from 0 :below (first dimensions)
+	  :do (loop :for j :from 0 :below (second dimensions)
+		    :do (let ((el (nth (+ (* i (second dimensions)) j) lst)))
+			  (when el (setf (aref a2d  i j) el)))))
+    a2d))
+
+
+
+
+
+
+
