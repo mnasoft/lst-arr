@@ -130,3 +130,22 @@
 (defun transpose (list)
   "Выполняет транспонирование"
   (apply #'mapcar #'list list))
+
+  
+(defun list->2d-list-left-right (rows cols lst)
+  "Пример использования:
+ (lst-arr::list->2d-list-left-right 2 4 '(1 2 3 4 5 6 7 8)) =>
+ ((1 2 3 4) 
+  (5 6 7 8))
+"
+  (let ((rez (lst-arr:array2d->list-list-by-row 
+	      (lst-arr:make-array2d-from-list (list rows cols) lst))))
+    rez))
+
+(defun list->2d-list-down-top (rows cols lst)
+  "Пример использования:
+  (lst-arr::list->2d-list-down-top 2 4 '(1 2 3 4 5 6 7 8)) ((2 4 6 8) (1 3 5 7))
+  ((2 4 6 8) 
+   (1 3 5 7))
+"
+    (reverse (transpose (list->2d-list-left-right cols rows lst))))
