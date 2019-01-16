@@ -15,6 +15,8 @@
 	   lst-arr::print-list-list
 	   lst-arr::print-array2d
 	   lst-arr::make-array2d-from-list
+	   )
+  (:export lst-arr::transpose
 	   ))
 
 ;;;;(declaim (optimize (space 0) (compilation-speed 0)  (speed 0) (safety 3) (debug 3)))

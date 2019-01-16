@@ -127,9 +127,6 @@
 			  (when el (setf (aref a2d  i j) el)))))
     a2d))
 
-
-
-
-
-
-
+(defun transpose (list)
+  "Выполняет транспонирование"
+  (apply #'mapcar #'list list))
