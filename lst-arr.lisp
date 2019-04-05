@@ -9,11 +9,11 @@
 Возвращает список первым элементом которого является количество элементов списке,
 а вторым элементом - максимальное количество элементов в одном из элементов списка.
 Пример использования:
-(calc-max-list-list-size '((1 2)(2)(1 2 5)(1 2)))
+ (calc-max-list-list-size '((1 2)(2)(1 2 5)(1 2)))
 => (4 3)
-(calc-max-list-list-size '(()()()()))
+ (calc-max-list-list-size '(()()()()))
 => (4 0)
-(calc-max-list-list-size '((1)(1 2 3 4 5 6)))
+ (calc-max-list-list-size '((1)(1 2 3 4 5 6)))
 => (2 6)
 "
   (let ((i (length l))
@@ -25,11 +25,11 @@
 Возвращает список первым элементом которого является количество элементов списке,
 а вторым элементом - максимальное количество элементов в одном из элементов списка.
 Пример использования:
-(calc-min-list-list-size '((1 2)(2)(1 2 5)(1 2)))
+ (calc-min-list-list-size '((1 2)(2)(1 2 5)(1 2)))
 => (4 1)
-(calc-min-list-list-size '(()()()()))
+ (calc-min-list-list-size '(()()()()))
 => (4 0)
-(calc-min-list-list-size '((1 2)(1 2 3 4 5 6)))
+ (calc-min-list-list-size '((1 2)(1 2 3 4 5 6)))
 => (2 2)
 "
   (let (
@@ -43,7 +43,7 @@
 Если в некоторых подсписках элементов меньше чем в других - 
 они заменяются 0.0
 Пример использования:
-(list-list->array '((1 2)(2)(1 2 5)(1 2)))
+ (list-list->array '((1 2)(2)(1 2 5)(1 2)))
 => #2A((1 2 0.0) (2 0.0 0.0) (1 2 5) (1 2 0.0))
 "
   (let* ((sz (calc-max-list-list-size l))
@@ -149,3 +149,15 @@
    (1 3 5 7))
 "
     (reverse (transpose (list->2d-list-left-right cols rows lst))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun arr-to-list (ar)
+  "Выполняет преобразование двумерного массива в список"
+  (labels
+      ((get-line (ar n)
+	 (let* ((dm (array-dimensions ar)) (cols (second dm)) (row  nil))
+	   (dotimes (i cols) (push (aref ar n i) row))
+	   (nreverse row))))
+    (loop for i below  (first (array-dimensions ar))
+       collect (get-line ar i))))

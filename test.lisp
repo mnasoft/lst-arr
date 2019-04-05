@@ -19,3 +19,6 @@
   (format t "~%(list-list-transponate lst)~%")
   (print-list-list (list-list-transponate lst))
   )
+
+(arr-to-list (make-array '(2 3) :initial-contents
+			 '((1 2 3) (4 5 6))))
