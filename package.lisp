@@ -10,7 +10,8 @@
   (:export lst-arr::array2d->list-list-by-col
 	   lst-arr::array2d->list-list-by-row
 	   )
-  (:export lst-arr::list-list->array
+  (:export ;; lst-arr::list-list->array
+	   lst-arr::list2d->array2d
 	   lst-arr::list-list-transponate
 	   lst-arr::print-list-list
 	   lst-arr::print-array2d
@@ -20,7 +21,7 @@
 	   lst-arr::list->2d-list-left-right
 	   lst-arr::list->2d-list-down-top
 	   )
-  (:export lst-arr::arr-to-list
+  (:export ;;lst-arr::arr-to-list
 	   )
   )
 

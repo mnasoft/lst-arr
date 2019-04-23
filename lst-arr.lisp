@@ -60,6 +60,9 @@
 	  l)
     a))
 
+(defun list2d->array2d (list2d)
+  (list-list->array list2d))
+
 (defun array2d->list-list-by-col(a)
   "Выполняет преобразования 2d массива в список списков заменяя строки столбцами."
   (do* ((in (array-dimension a 0))
