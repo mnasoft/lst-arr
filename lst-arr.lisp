@@ -164,3 +164,34 @@
 	   (nreverse row))))
     (loop for i below  (first (array-dimensions ar))
        collect (get-line ar i))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+ (defun skip-n-items (n lst)
+    "Пропускает первые n элементов списка lst и возвращает оставшуюся часть списка.
+ (skip-n-items -1  '(1 2 3 4 5 6 7 8 9 10))
+ (skip-n-items  2  '(1 2 3 4 5 6 7 8 9 10))
+ (skip-n-items  9  '(1 2 3 4 5 6 7 8 9 10))
+ (skip-n-items 10  '(1 2 3 4 5 6 7 8 9 10))
+"
+  (let ((rez lst))
+    (dotimes (i n rez) (setf rez (cdr rez)))))
+
+(defun item-by-key (key key-lst value-lst)
+    "Возвращает "
+    (nth (position key key-lst :test #'string=) value-lst))
+
+
+(defun items-by-keys (key-from key-to key-list value-list &key (test #'string=))
+    "Возвращает список значений, содержащихся в value-list, 
+  которые находятся в дапазоне позиций от key-from до key-to каких как они 
+  встречаются в списке key-list.
+     Пример использования:
+   (items-by-keys \"C\" \"E\"  
+     '(\"A\" \"B\" \"C\" \"D\" \"E\" \"F\" \"G\" \"H\" \"I\") 
+     '( 1   2   3   4   5   6   7   8   9 10 11 12))
+  "
+    (loop
+       :for i
+       :from (position key-from  key-list :test test)
+       :to (position key-to key-list :test test) :collect
+	 (nth i value-list)))
