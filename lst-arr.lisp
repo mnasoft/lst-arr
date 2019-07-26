@@ -177,9 +177,12 @@
     (dotimes (i n rez) (setf rez (cdr rez)))))
 
 (defun item-by-key (key key-lst value-lst)
-    "Возвращает "
-    (nth (position key key-lst :test #'string=) value-lst))
-
+  "Возвращает "
+  (assert (<=(length key-lst) (length value-lst)))
+;;;;  (assert (=(length key-lst) (length value-lst)))
+  (let ((pos (position key key-lst :test #'string=)))
+    (unless pos (error "DEFUN lst-arr:item-by-key~%key=~S not exist in~%key-lst=~S~%" key key-lst) )
+    (nth pos value-lst)))
 
 (defun items-by-keys (key-from key-to key-list value-list &key (test #'string=))
     "Возвращает список значений, содержащихся в value-list, 
