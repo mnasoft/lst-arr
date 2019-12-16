@@ -176,25 +176,48 @@
   (let ((rez lst))
     (dotimes (i n rez) (setf rez (cdr rez)))))
 
-(defun item-by-key (key key-lst value-lst)
-  "Возвращает "
+(defun item-by-key (key key-lst value-lst &key (test #'string=))
+  "@b(Описание:) item-by-key возвращает значение из списка @b(value-lst), 
+позиция которого равна позиции ключа @b(key) в списке ключей @b(key-lst).
+Если ключ @b(key) отсутствует в списке ключей @b(key-lst) возникает исключительная ситуация.
+
+@b(Переменые:)
+@begin(list)
+ @item(key       - ключ;)
+ @item(key-lst   - список ключей;)
+ @item(value-lst - список значений;)
+ @item(test      - тестовая функция для поиска ключа.)
+@end(list)
+
+@b(Пример использования:)
+@begin[lang=lisp](code)
+ (item-by-key \"et100\" '(\"et100\" \"et101\" \"et102\" \"et103\" \"et104\" ) '(100 101 102 103 104)) => 100
+ (item-by-key \"et200\" '(\"et100\" \"et101\" \"et102\" \"et103\" \"et104\" ) '(100 101 102 103 104)) 
+ => 
+ ;;;;DEFUN lst-arr:item-by-key
+ ;;;;key=\"et200\" not exist in
+ ;;;;key-lst=(\"et100\" \"et101\" \"et102\" \"et103\" \"et104\")
+ ;;;;[Condition of type SIMPLE-ERROR]
+@end(code)
+"
   (assert (<=(length key-lst) (length value-lst)))
 ;;;;  (assert (=(length key-lst) (length value-lst)))
-  (let ((pos (position key key-lst :test #'string=)))
+  (let ((pos (position key key-lst :test test)))
     (unless pos (error "DEFUN lst-arr:item-by-key~%key=~S not exist in~%key-lst=~S~%" key key-lst) )
     (nth pos value-lst)))
 
 (defun items-by-keys (key-from key-to key-list value-list &key (test #'string=))
-    "Возвращает список значений, содержащихся в value-list, 
+  "@b(Описание:)
+Возвращает список значений, содержащихся в value-list, 
   которые находятся в дапазоне позиций от key-from до key-to каких как они 
   встречаются в списке key-list.
-     Пример использования:
+@b(Пример использования:)
    (items-by-keys \"C\" \"E\"  
      '(\"A\" \"B\" \"C\" \"D\" \"E\" \"F\" \"G\" \"H\" \"I\") 
      '( 1   2   3   4   5   6   7   8   9 10 11 12))
   "
-    (loop
-       :for i
-       :from (position key-from  key-list :test test)
-       :to (position key-to key-list :test test) :collect
-	 (nth i value-list)))
+  (loop
+     :for i
+     :from (position key-from  key-list :test test)
+     :to (position key-to key-list :test test) :collect
+       (nth i value-list)))
