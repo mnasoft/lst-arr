@@ -1,10 +1,29 @@
 ;;;; lst-arr.lisp
 
+(defpackage #:lst-arr
+  (:use #:cl)
+  (:export transpose
+           list-list-transponate
+           items-by-keys
+           array2d->list-list-by-col
+           item-by-key
+           array2d->list-list-by-row
+           print-list-list
+           list-list->array
+           skip-n-items
+           arr-to-list
+           make-array2d-from-list
+           list->2d-list-left-right
+           list2d->array2d
+           calc-max-list-list-size
+           calc-min-list-list-size           
+           list->2d-list-down-top
+           print-array2d))
+
 (in-package #:lst-arr)
 
 ;;; "lst-arr" goes here. Hacks and glory await!
 
-(export 'calc-max-list-list-size )
 (defun calc-max-list-list-size (l)
   "@b(Описание:) calc-max-list-list-size выполняет поиск максимального количества элементов в списке списков.
 
@@ -23,7 +42,6 @@
 	(j (apply #'max (mapcar #'length l))))
     (list i j)))
 
-(export 'calc-min-list-list-size )
 (defun calc-min-list-list-size (l)
   "@b(Описание:) calc-min-list-list-size выполняет поиск минимального количества элементов в списке списков.
 
@@ -44,7 +62,6 @@
 	)
     (list i j)))
 
-(export 'list-list->array )
 (defun list-list->array (l)
   "@b(Описание:) Создает матрицу типа #2A, состоящую из элементов списка списков.
 
@@ -69,11 +86,9 @@
 	  l)
     a))
 
-(export 'list2d->array2d )
 (defun list2d->array2d (list2d)
   (list-list->array list2d))
 
-(export 'array2d->list-list-by-col)
 (defun array2d->list-list-by-col(a)
   "@b(Описание:)
 Выполняет преобразования 2d массива в список списков заменяя строки столбцами."
@@ -89,7 +104,6 @@
 		 (setf col (cons (aref a i j) col)))
 	       lst))))
 
-(export 'list-list-transponate)
 (defun list-list-transponate(l)
   "@b(Описание:) Транспонирование списка-списков
 @b(Пример использования:)
@@ -99,14 +113,12 @@
 "
   (array2d->list-list-by-col (list-list->array l)))
 
-(export 'array2d->list-list-by-row )
 (defun array2d->list-list-by-row (a)
   "Выполняет преобразования 2d массива в список списков."
   (list-list-transponate (array2d->list-list-by-col a)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(export 'print-list-list )
 (defun print-list-list (lst &key (format-string " (~{~6f~^ ~})~%") (stream t))
   "@b(Описание:) print-list-list выполняет построчный вывод списка-списков.
 @b(Пример использования:)
@@ -124,14 +136,12 @@
    lst)
   (format stream ")~%"))
 
-(export 'print-array2d )
 (defun print-array2d (arr &key (format-string "|~{~6f~^ ~}|~%") (stream t))
   "@b(Описание:) print-array2d выполняет построчный вывод масива."
   (mapc
    #'(lambda (el) (format stream format-string el))
    (array2d->list-list-by-row arr)))
 
-(export 'make-array2d-from-list )
 (defun make-array2d-from-list (dimensions lst &optional (initial-element 0.0))
   "@b(Описание:) make-array2d-from-list создает двумерный массив, состоящий из элементов списка lst.
 
@@ -148,12 +158,11 @@
 			  (when el (setf (aref a2d  i j) el)))))
     a2d))
 
-(export 'transpose )
+
 (defun transpose (list)
   "@b(Описание:) transpose выполняет транспонирование."
   (apply #'mapcar #'list list))
 
-(export 'list->2d-list-left-right )
 (defun list->2d-list-left-right (rows cols lst)
   "Пример использования:
  (list->2d-list-left-right 2 4 '(1 2 3 4 5 6 7 8)) =>
@@ -164,7 +173,6 @@
 	      (make-array2d-from-list (list rows cols) lst))))
     rez))
 
-(export 'list->2d-list-down-top )
 (defun list->2d-list-down-top (rows cols lst)
   "@b(Пример использования:)
 @begin[lang=lisp](code)
@@ -177,7 +185,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(export 'arr-to-list )
 (defun arr-to-list (ar)
   "Выполняет преобразование двумерного массива в список"
   (labels
@@ -189,7 +196,6 @@
        collect (get-line ar i))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(export 'skip-n-items )
 (defun skip-n-items (n lst)
     "Пропускает первые n элементов списка lst и возвращает оставшуюся часть списка.
  (skip-n-items -1  '(1 2 3 4 5 6 7 8 9 10))
@@ -200,7 +206,6 @@
   (let ((rez lst))
     (dotimes (i n rez) (setf rez (cdr rez)))))
 
-(export 'item-by-key )
 (defun item-by-key (key key-lst value-lst &key (test #'string=))
   "@b(Описание:) item-by-key возвращает значение из списка @b(value-lst), 
 позиция которого равна позиции ключа @b(key) в списке ключей @b(key-lst).
@@ -232,7 +237,6 @@
     (unless pos (error "DEFUN lst-arr:item-by-key~%key=~S not exist in~%key-lst=~S~%" key key-lst) )
     (nth pos value-lst)))
 
-(export 'items-by-keys )
 (defun items-by-keys (key-from key-to key-list value-list &key (test #'string=))
   "@b(Описание:) items-by-keys возвращает список значений, содержащихся в value-list, 
   которые находятся в дапазоне позиций от key-from до key-to каких как они 
