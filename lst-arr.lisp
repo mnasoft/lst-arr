@@ -4,21 +4,25 @@
   (:use #:cl)
   (:export transpose
            list-list-transponate
-           items-by-keys
-           array2d->list-list-by-col
            item-by-key
+           items-by-keys)
+  (:export array2d->list-list-by-col
            array2d->list-list-by-row
-           print-list-list
+     
            list-list->array
-           skip-n-items
+           list2d->array2d
+           list->2d-list-down-top
+           
            arr-to-list
+           )
+  (:export print-list-list
+           print-array2d)
+  (:export skip-n-items
            make-array2d-from-list
            list->2d-list-left-right
-           list2d->array2d
            calc-max-list-list-size
            calc-min-list-list-size           
-           list->2d-list-down-top
-           print-array2d))
+           ))
 
 (in-package #:lst-arr)
 
@@ -89,9 +93,9 @@
 (defun list2d->array2d (list2d)
   (list-list->array list2d))
 
-(defun array2d->list-list-by-col(a)
-  "@b(Описание:)
-Выполняет преобразования 2d массива в список списков заменяя строки столбцами."
+(defun array2d->list-list-by-col (a)
+  "@b(Описание:) функция @b(array2d->list-list-by-col) возвращает
+транспонированный 2d-list."
   (do* ((in (array-dimension a 0))
 	(jn (array-dimension a 1))
 	(j 0 (1+ j))
