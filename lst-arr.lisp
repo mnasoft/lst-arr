@@ -1,6 +1,6 @@
 ;;;; lst-arr.lisp
 
-(defpackage #:lst-arr
+(defpackage :lst-arr
   (:use #:cl)
   (:export transpose
            list-list-transponate
@@ -24,7 +24,7 @@
            calc-min-list-list-size           
            ))
 
-(in-package #:lst-arr)
+(in-package :lst-arr)
 
 ;;; "lst-arr" goes here. Hacks and glory await!
 

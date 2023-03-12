@@ -1,6 +1,6 @@
 ;;;; lst-arr.lisp
 
-(in-package #:lst-arr)
+(in-package :lst-arr)
 
 (let ((arr (make-array '(3 4) :initial-contents '((1 2 3 4) (5 6 7 8) (9 10 11 12)))))
   (format t "arr~%")
